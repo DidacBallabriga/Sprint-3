@@ -78,7 +78,7 @@ for (let i = 0 ; i < products.length; i++) {
 
 // Exercise 2
 function cleanCart() {
-
+ cartList.length = 0;
 }
 
 // Exercise 3
