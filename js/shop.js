@@ -73,7 +73,7 @@ for (let i = 0 ; i < products.length; i++) {
         break;
     }
 }
-   console.log(cartList);
+ // console.log(cartList);
 }
 
 // Exercise 2
@@ -89,13 +89,28 @@ function calculateTotal() {
         var total = cartList[i].price;
         var tot = total + tot;
     }
-    console.log(tot);
+   console.log(tot);
 }
 
 // Exercise 4
 function generateCart() {
-    // Using the "cartlist" array that contains all the items in the shopping cart, 
-    // generate the "cart" array that does not contain repeated items, instead each item of this array "cart" shows the quantity of product.
+// Using the "cartlist" array that contains all the items in the shopping cart, 
+// generate the "cart" array that does not contain repeated items, instead each item of this array "cart" shows the quantity of product. 
+    for (let i =0; i<cartList.length; i++){
+        var findDuplicate = cart.findIndex(dupli => dupli.name == cartList[i].name);
+        // findDuplicate retorna -1 sino existe duplicado
+        // console.log(cartList[i].name);
+        // console.log("findDuplicate: " + findDuplicate);
+        if (findDuplicate == -1){
+            // console.log("NO EXISTE");
+            var cartItem = {id: cartList[i].id, name: cartList[i].name, price:cartList[i].price, type: cartList[i].type, quantity: 1};    
+            cart.push(cartItem);      
+        } else {
+            // console.log("EXISTE");
+            cart[findDuplicate].quantity++;              
+        }  
+    }    
+    console.log(cart);   
 }
 
 // Exercise 5
