@@ -134,7 +134,7 @@ function addToCart(id) {
     // 1. Loop for to the array products to get the item to add to cart
     // 2. Add found product to the cart array or update its quantity in case it has been added previously.
     for (let i = 0 ; i<products.length; i++){
-          if(id-1 == i){
+          if(products[i].id == id){
               //console.log("buscamos duplicado");
               var findDuplicate = cart.findIndex(dupli => dupli.name == products[i].name);
               if(findDuplicate > -1){
@@ -150,14 +150,31 @@ function addToCart(id) {
     }  
 }
 
-
-
-
 // Exercise 8
 function removeFromCart(id) {
     // 1. Loop for to the array products to get the item to add to cart
     // 2. Add found product to the cartList array
-}
+        for (let i = 0 ; i<products.length; i++){
+            if(products[i].id == id){
+                var findDuplicate = cart.findIndex(dupli => dupli.name == products[i].name);
+                //console.log(findDuplicate);
+                if(findDuplicate==-1){
+                    return  console.log("El producto no está en el carrito");
+                }
+                if(cart[findDuplicate].quantity > 1);
+                //console.log("resto cantidad");
+                cart[findDuplicate].quantity-- ;
+                cart[findDuplicate].subtotal -= cart[findDuplicate].price;
+                //console.log(cart);
+            }     
+        }  
+        if (cart[findDuplicate].quantity == 0){
+            cart.splice(findDuplicate, 1);   
+        } 
+    }
+
+
+
 
 // Exercise 9
 function printCart() {
