@@ -64,65 +64,81 @@ var cart = [];
 var total = 0;
 
 // Exercise 1
-function buy(id) {
+function buy(id) {  
     // 1. Loop for to the array products to get the item to add to cart
     // 2. Add found product to the cartList array
-for (let i = 0 ; i < products.length; i++) {  
-    if (products[i].id == id){
-        cartList.push(products[id-1]);
-        break;
-    }
-}
- // console.log(cartList);
+        for (let i = 0 ; i < products.length; i++) {  
+            if (products[i].id == id){
+                cartList.push(products[id-1]);
+                break;
+            }
+        }
+  console.log("cartList:");
+  console.log(cartList);
+  generateCart()
 }
 
 // Exercise 2
 function cleanCart() {
- cartList.length = 0;
+ //cartList.length = 0;   
+ cart.length = 0;
+ total = 0;
 }
 
 // Exercise 3
 function calculateTotal() {
     // Calculate total price of the cart using the "cartList" array
     var tot = 0;
-    for (let i = 0; i < cartList.length; i++){
-        var total = cartList[i].price;
-        var tot = total + tot;
+    for (let i = 0; i < cart.length; i++){
+        var tot = cart[i].subtotalWithDiscount;
+        //console.log(tot);
+        total += tot;
     }
-   console.log(tot);
+    console.log("Cart:");
+    console.log(cart);
+    console.log("total cart with discount " + total);
 }
 
 // Exercise 4
 function generateCart() {
-// Using the "cartlist" array that contains all the items in the shopping cart, 
-// generate the "cart" array that does not contain repeated items, instead each item of this array "cart" shows the quantity of product. 
+    /*for (let i =0; i<cartList.length; i++){
+        const existe = (name) => {
+            return cart.some(values => values.name === name);
+        }
+        const result = existe(cartList[i].name);
+        console.log(result);
+        if(result === false){
+            var cartItem = {name: cartList[i].name, price:cartList[i].price, type: cartList[i].type, quantity: 1, subtotal:cartList[i].price, subtotalWithDiscount:0};    
+            cart.push(cartItem);  
+        } else {
+            cart[i].quantity++; 
+        }
+    }*/
+    cleanCart()
     for (let i =0; i<cartList.length; i++){
         var findDuplicate = cart.findIndex(dupli => dupli.name == cartList[i].name);
-        // findDuplicate retorna -1 sino existe duplicado
-        // console.log(cartList[i].name);
-        // console.log("findDuplicate: " + findDuplicate);
         if (findDuplicate == -1){
-            // console.log("NO EXISTE");
-            var cartItem = {name: cartList[i].name, price:cartList[i].price, type: cartList[i].type, quantity: 1, subtotal:0, subtotalWithDiscount:0};    
+            var cartItem = {name: cartList[i].name, price:cartList[i].price, type: cartList[i].type, quantity: 1, subtotal:cartList[i].price, subtotalWithDiscount:cartList[i].price};  
             cart.push(cartItem);      
         } else {
-            // console.log("EXISTE");
-            cart[findDuplicate].quantity++;     
+            cart[findDuplicate].quantity++;   
+            cart[findDuplicate].subtotal = cart[findDuplicate].quantity*cart[findDuplicate].price;
+            cart[findDuplicate].subtotalWithDiscount = cart[findDuplicate].quantity*cart[findDuplicate].price; 
         }  
-    }    
+    }  
+    applyPromotionsCart()
 }
-
 // Exercise 5
 function applyPromotionsCart() {
     // Apply promotions to each item in the array "cart"
     for (let i = 0; i<cart.length; i++){
         if (cart[i].name == 'cooking oil' && cart[i].quantity >= 3){
-        cart[i].price=10;
-         } else if (cart[i].name == 'Instant cupcake mixture' && cart[i].quantity >= 10){
-        cart[i].price = cart[i].price*0.6; 
+        cart[i].subtotalWithDiscount=10*cart[i].quantity;
+        } else if (cart[i].name == 'Instant cupcake mixture' && cart[i].quantity >= 10){  
+        cart[i].subtotalWithDiscount = (cart[i].price*cart[i].quantity)*0.6; 
         }
     }
-       console.log(cart)
+    calculateTotal()
 }
 
 
