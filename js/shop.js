@@ -63,7 +63,7 @@ var cart = [];
 
 var total = 0;
 
-// Exercise 1
+/* Exercise 1 -Nivell 2 anula
 function buy(id) {  
     // 1. Loop for to the array products to get the item to add to cart
     // 2. Add found product to the cartList array
@@ -76,18 +76,19 @@ function buy(id) {
   console.log("cartList:");
   console.log(cartList);
   generateCart()
-}
+}*/
 
 // Exercise 2
 function cleanCart() {
  //cartList.length = 0;   
- cart.length = 0;
+ //cart.length = 0;
  total = 0;
 }
 
 // Exercise 3
 function calculateTotal() {
     // Calculate total price of the cart using the "cartList" array
+    cleanCart();
     var tot = 0;
     for (let i = 0; i < cart.length; i++){
         var tot = cart[i].subtotalWithDiscount;
@@ -99,7 +100,7 @@ function calculateTotal() {
     console.log("total cart with discount " + total);
 }
 
-// Exercise 4
+/* Exercise 4 -Nivell 2 anula
 function generateCart() {
     /*for (let i =0; i<cartList.length; i++){
         const existe = (name) => {
@@ -113,7 +114,7 @@ function generateCart() {
         } else {
             cart[i].quantity++; 
         }
-    }*/
+    }
     cleanCart()
     for (let i =0; i<cartList.length; i++){
         var findDuplicate = cart.findIndex(dupli => dupli.name == cartList[i].name);
@@ -127,7 +128,7 @@ function generateCart() {
         }  
     }  
     applyPromotionsCart()
-}
+}*/
 // Exercise 5
 function applyPromotionsCart() {
     // Apply promotions to each item in the array "cart"
@@ -151,43 +152,43 @@ function addToCart(id) {
     // 2. Add found product to the cart array or update its quantity in case it has been added previously.
     for (let i = 0 ; i<products.length; i++){
           if(products[i].id == id){
-              //console.log("buscamos duplicado");
               var findDuplicate = cart.findIndex(dupli => dupli.name == products[i].name);
               if(findDuplicate > -1){
-                 // console.log("Existe, suma cantidad y precio");
                     cart[findDuplicate].quantity++;
                     cart[findDuplicate].subtotal += cart[findDuplicate].price;
+                    cart[findDuplicate].subtotalWithDiscount = cart[findDuplicate].quantity*cart[findDuplicate].price; 
               } else {
-                //  console.log("no existe, crear producto");
-                  var cartItem = {name: products[i].name, price:products[i].price, type: products[i].type, quantity: 1, subtotal:products[i].price, subtotalWithDiscount:0};  
-                  cart.push(cartItem);  
+                var cartItem = {name: products[i].name, price:products[i].price, type: products[i].type, quantity: 1, subtotal:products[i].price, subtotalWithDiscount:products[i].price};  
+                cart.push(cartItem);     
               }
             }
-    }  
+    }
+    applyPromotionsCart();  
 }
 
 // Exercise 8
 function removeFromCart(id) {
     // 1. Loop for to the array products to get the item to add to cart
     // 2. Add found product to the cartList array
-        for (let i = 0 ; i<products.length; i++){
-            if(products[i].id == id){
-                var findDuplicate = cart.findIndex(dupli => dupli.name == products[i].name);
-                //console.log(findDuplicate);
-                if(findDuplicate==-1){
-                    return  console.log("El producto no está en el carrito");
-                }
-                if(cart[findDuplicate].quantity > 1);
-                //console.log("resto cantidad");
-                cart[findDuplicate].quantity-- ;
-                cart[findDuplicate].subtotal -= cart[findDuplicate].price;
-                //console.log(cart);
-            }     
-        }  
-        if (cart[findDuplicate].quantity == 0){
-            cart.splice(findDuplicate, 1);   
-        } 
-    }
+
+    for (let i =0; i<products.length; i++){
+        var findDuplicate = cart.findIndex(dupli => dupli.name == products[i].name);
+        if(products[i].id == id){
+            if(findDuplicate>-1){
+               cart[findDuplicate].quantity--;
+               cart[findDuplicate].subtotal -= cart[findDuplicate].price;
+               cart[findDuplicate].subtotalWithDiscount = cart[findDuplicate].quantity*cart[findDuplicate].price; 
+
+            } else {
+               return null;
+            }
+            if(cart[findDuplicate].quantity === 0){
+                cart.splice(findDuplicate);
+            }
+        }
+    } 
+    applyPromotionsCart();  
+}
 
 
 
