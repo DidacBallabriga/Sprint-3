@@ -64,21 +64,25 @@ var cart = [];
 var total = 0;
 
 // Exercise 1
-/*function buy(id) {
+function buy(id) {  
     // 1. Loop for to the array products to get the item to add to cart
     // 2. Add found product to the cartList array
-for (let i = 0 ; i < products.length; i++) {  
-    if (products[i].id == id){
-        cartList.push(products[id-1]);
-        break;
-    }
+        for (let i = 0 ; i < products.length; i++) {  
+            if (products[i].id == id){
+                cartList.push(products[id-1]);
+                break;
+            }
+        }
+  console.log("cartList:");
+  console.log(cartList);
+  generateCart()
 }
- // console.log(cartList);
-}*/
 
 // Exercise 2
 function cleanCart() {
+ //cartList.length = 0;   
  cart.length = 0;
+ total = 0;
 }
 
 // Exercise 3
@@ -86,97 +90,57 @@ function calculateTotal() {
     // Calculate total price of the cart using the "cartList" array
     var tot = 0;
     for (let i = 0; i < cart.length; i++){
-        var total = cart[i].subtotal;
-        var tot = total + tot;
+        var tot = cart[i].subtotalWithDiscount;
+        //console.log(tot);
+        total += tot;
     }
-   console.log(tot.toFixed(2));
+    console.log("Cart:");
+    console.log(cart);
+    console.log("total cart with discount " + total);
 }
 
 // Exercise 4
-/*function generateCart() {
-// Using the "cartlist" array that contains all the items in the shopping cart, 
-// generate the "cart" array that does not contain repeated items, instead each item of this array "cart" shows the quantity of product. 
+function generateCart() {
+    /*for (let i =0; i<cartList.length; i++){
+        const existe = (name) => {
+            return cart.some(values => values.name === name);
+        }
+        const result = existe(cartList[i].name);
+        console.log(result);
+        if(result === false){
+            var cartItem = {name: cartList[i].name, price:cartList[i].price, type: cartList[i].type, quantity: 1, subtotal:cartList[i].price, subtotalWithDiscount:0};    
+            cart.push(cartItem);  
+        } else {
+            cart[i].quantity++; 
+        }
+    }*/
+    cleanCart()
     for (let i =0; i<cartList.length; i++){
         var findDuplicate = cart.findIndex(dupli => dupli.name == cartList[i].name);
-        // findDuplicate retorna -1 sino existe duplicado
-        // console.log(cartList[i].name);
-        // console.log("findDuplicate: " + findDuplicate);
         if (findDuplicate == -1){
-            // console.log("NO EXISTE");
-            var cartItem = {name: cartList[i].name, price:cartList[i].price, type: cartList[i].type, quantity: 1, subtotal:0, subtotalWithDiscount:0};    
+            var cartItem = {name: cartList[i].name, price:cartList[i].price, type: cartList[i].type, quantity: 1, subtotal:cartList[i].price, subtotalWithDiscount:cartList[i].price};  
             cart.push(cartItem);      
         } else {
-            // console.log("EXISTE");
-            cart[findDuplicate].quantity++;     
+            cart[findDuplicate].quantity++;   
+            cart[findDuplicate].subtotal = cart[findDuplicate].quantity*cart[findDuplicate].price;
+            cart[findDuplicate].subtotalWithDiscount = cart[findDuplicate].quantity*cart[findDuplicate].price; 
         }  
-    }    
-}*/
-
+    }  
+    applyPromotionsCart()
+}
 // Exercise 5
 function applyPromotionsCart() {
     // Apply promotions to each item in the array "cart"
     for (let i = 0; i<cart.length; i++){
         if (cart[i].name == 'cooking oil' && cart[i].quantity >= 3){
-        cart[i].price=10;
-         } else if (cart[i].name == 'Instant cupcake mixture' && cart[i].quantity >= 10){
-        cart[i].price = cart[i].price*0.6; 
+        cart[i].subtotalWithDiscount=10*cart[i].quantity;
+        } else if (cart[i].name == 'Instant cupcake mixture' && cart[i].quantity >= 10){  
+        cart[i].subtotalWithDiscount = (cart[i].price*cart[i].quantity)*0.6; 
         }
     }
-       console.log(cart)
+    calculateTotal()
 }
 
 
 // ** Nivell II **
 
-// Exercise 7
-function addToCart(id) {
-    // Refactor previous code in order to simplify it 
-    // 1. Loop for to the array products to get the item to add to cart
-    // 2. Add found product to the cart array or update its quantity in case it has been added previously.
-    for (let i = 0 ; i<products.length; i++){
-          if(products[i].id == id){
-              //console.log("buscamos duplicado");
-              var findDuplicate = cart.findIndex(dupli => dupli.name == products[i].name);
-              if(findDuplicate > -1){
-                 // console.log("Existe, suma cantidad y precio");
-                    cart[findDuplicate].quantity++;
-                    cart[findDuplicate].subtotal += cart[findDuplicate].price;
-              } else {
-                //  console.log("no existe, crear producto");
-                  var cartItem = {name: products[i].name, price:products[i].price, type: products[i].type, quantity: 1, subtotal:products[i].price, subtotalWithDiscount:0};  
-                  cart.push(cartItem);  
-              }
-            }
-    }  
-}
-
-// Exercise 8
-function removeFromCart(id) {
-    // 1. Loop for to the array products to get the item to add to cart
-    // 2. Add found product to the cartList array
-        for (let i = 0 ; i<products.length; i++){
-            if(products[i].id == id){
-                var findDuplicate = cart.findIndex(dupli => dupli.name == products[i].name);
-                //console.log(findDuplicate);
-                if(findDuplicate==-1){
-                    return  console.log("El producto no está en el carrito");
-                }
-                if(cart[findDuplicate].quantity > 1);
-                //console.log("resto cantidad");
-                cart[findDuplicate].quantity-- ;
-                cart[findDuplicate].subtotal -= cart[findDuplicate].price;
-                //console.log(cart);
-            }     
-        }  
-        if (cart[findDuplicate].quantity == 0){
-            cart.splice(findDuplicate, 1);   
-        } 
-    }
-
-
-
-
-// Exercise 9
-function printCart() {
-    // Fill the shopping cart modal manipulating the shopping cart dom
-}
