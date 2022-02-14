@@ -95,6 +95,7 @@ function calculateTotal() {
         //console.log(tot);
         total += tot;
     }
+    printCart();
     console.log("Cart:");
     console.log(cart);
     console.log("total cart with discount " + total);
@@ -158,7 +159,7 @@ function addToCart(id) {
                     cart[findDuplicate].subtotal += cart[findDuplicate].price;
                     cart[findDuplicate].subtotalWithDiscount = cart[findDuplicate].quantity*cart[findDuplicate].price; 
               } else {
-                var cartItem = {name: products[i].name, price:products[i].price, type: products[i].type, quantity: 1, subtotal:products[i].price, subtotalWithDiscount:products[i].price};  
+                var cartItem = {id: products[i].id ,name: products[i].name, price:products[i].price, type: products[i].type, quantity: 1, subtotal:products[i].price, subtotalWithDiscount:products[i].price};  
                 cart.push(cartItem);     
               }
             }
@@ -170,7 +171,6 @@ function addToCart(id) {
 function removeFromCart(id) {
     // 1. Loop for to the array products to get the item to add to cart
     // 2. Add found product to the cartList array
-
     for (let i =0; i<products.length; i++){
         var findDuplicate = cart.findIndex(dupli => dupli.name == products[i].name);
         if(products[i].id == id){
@@ -178,12 +178,11 @@ function removeFromCart(id) {
                cart[findDuplicate].quantity--;
                cart[findDuplicate].subtotal -= cart[findDuplicate].price;
                cart[findDuplicate].subtotalWithDiscount = cart[findDuplicate].quantity*cart[findDuplicate].price; 
-
             } else {
                return null;
             }
             if(cart[findDuplicate].quantity === 0){
-                cart.splice(findDuplicate);
+                cart.splice(findDuplicate, 1);
             }
         }
     } 
@@ -191,9 +190,35 @@ function removeFromCart(id) {
 }
 
 
-
 // Exercise 9
 function printCart() {
     // Fill the shopping cart modal manipulating the shopping cart dom
+    const ul = document.querySelector(".list");
+    const bill = document.querySelector(".bill")
+    while (ul.firstChild) {
+        ul.removeChild(ul.firstChild);
+    }
+    while (bill.firstChild) {
+        bill.removeChild(bill.firstChild);
+    }
+    cart.forEach(item => {
+        ul.innerHTML += `
+    <div class="d-flex justify-content-between">
+    <li class="name_product">${item.name}</li>
+    <li class="quantity">${item.quantity}</li>
+    </div>
+    <div class="d-flex justify-content-end mb-4">
+    <button class="btn btn-primary m-1" onclick="addToCart(${item.id})">+</button>
+    <button class="btn btn-info m-1" onclick="removeFromCart(${item.id})"><b>-</b></button>
+    </div>
+    `
+    })
+    bill.innerHTML += `
+    Total: $${total} 
+    `
 }
+
+
+
+
 
