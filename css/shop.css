@@ -24,3 +24,24 @@ body{
     right: 0;
     margin-right: 1rem;
 }
+.p_cart{
+    font-size: 1.2rem;
+    color:#474747;
+    text-decoration: underline;
+}
+.name_product{
+    list-style: none;
+    font-size: 1.25rem;
+}
+.list {
+    padding: 0;
+}
+.quantity{
+    list-style: none;
+    font-size: 1.25rem;
+    padding-right: 2.5rem;
+    padding-left: 2.5rem;
+}
+/*padding: 0;
+height: 2rem;
+*/
