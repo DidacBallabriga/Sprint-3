@@ -63,7 +63,7 @@ var cart = [];
 
 var total = 0;
 
-/* Exercise 1 -Nivell 2 anula
+
 function buy(id) {  
     // 1. Loop for to the array products to get the item to add to cart
     // 2. Add found product to the cartList array
@@ -76,7 +76,7 @@ function buy(id) {
   console.log("cartList:");
   console.log(cartList);
   generateCart()
-}*/
+}
 
 // Exercise 2
 function cleanCart() {
@@ -101,7 +101,6 @@ function calculateTotal() {
     console.log("total cart with discount " + total);
 }
 
-/* Exercise 4 -Nivell 2 anula
 function generateCart() {
     /*for (let i =0; i<cartList.length; i++){
         const existe = (name) => {
@@ -115,7 +114,7 @@ function generateCart() {
         } else {
             cart[i].quantity++; 
         }
-    }
+    }*/
     cleanCart()
     for (let i =0; i<cartList.length; i++){
         var findDuplicate = cart.findIndex(dupli => dupli.name == cartList[i].name);
@@ -129,7 +128,7 @@ function generateCart() {
         }  
     }  
     applyPromotionsCart()
-}*/
+}
 // Exercise 5
 function applyPromotionsCart() {
     // Apply promotions to each item in the array "cart"
